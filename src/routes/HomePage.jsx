@@ -1,3 +1,5 @@
+import FlashCardsList from "./FlashCards/FlashCardsList";
+
 const HomePage = () => {
   return (
     <>
@@ -13,9 +15,11 @@ const HomePage = () => {
           peuvent être utilisées en tant qu'exercice pour aider les apprenants à
           mémoriser des mots, des expressions ou des phrases.
         </p>
+      <hr />
       </div>
+      <FlashCardsList></FlashCardsList>
 
-      
+
     </>
   );
 };

@@ -2,14 +2,14 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import FlashCardDisplay from "./components/FlashCardDisplay";
 
-const FlashCardssList = () => {
+const FlashCardsList = () => {
 
   const flashcards = useSelector((state) => state.flashcards.flashcards);
 
   return (
     <>  
         
-        <div className="col-4 offset-4 bg-dark rounded text-light mt-2 p-3">
+        <div className="col-8 offset-2 bg-dark rounded text-light mt-2 p-3">
         
         <h3>FlashCards List</h3>
         <hr />
@@ -25,7 +25,7 @@ const FlashCardssList = () => {
         ) : (
           [...flashcards]
             .sort((a, b) => a.id.localeCompare(b.id))
-            .map((c) => <FlashCardDisplay key={f.id} flashcardId={f.id} />)
+            .map((f) => <FlashCardDisplay key={f.id} flashcardId={f.id} />)
         )}
       {/* </div> */}
       </div>
@@ -33,4 +33,4 @@ const FlashCardssList = () => {
   );
 };
 
-export default FlashCardssList;
+export default FlashCardsList;

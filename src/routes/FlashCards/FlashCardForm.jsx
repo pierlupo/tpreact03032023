@@ -1,14 +1,16 @@
 import { useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate,useParams, useSearchParams } from "react-router-dom"
-import { addFlashCardAction, deleteFlashCardAction, editFlashCardAction } from "./FlashCardsSlice";
+import { addFlashCard, deleteFlashCard, editFlashCard } from "./FlashCardsSlice";
 
-const FlashCardForm = (props) => {
+const FlashCardForm = () => {
 
     const{flashcardId} = useParams()
     const flashcard = useSelector(state => state.flashcards.flashcards).find(f => f.id === flashcardId)
-    const [searchParams] = useSearchParams
+    const [searchParams] = useSearchParams()
     const mode = searchParams.get('mode') ?? 'add'
+    // const mode = "add"
+
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -22,7 +24,7 @@ const FlashCardForm = (props) => {
     event.preventDefault()
 
     if (mode === 'delete') {
-      await dispatch(deleteFlashCardAction(flashcard.id))
+      await dispatch(deleteFlashCard(flashcard.id))
     } else {
       const question = questionRef.current.value
       const explication = explicationRef.current.value
@@ -42,17 +44,19 @@ const FlashCardForm = (props) => {
 
 
       if (mode === 'add') {
-        await dispatch(addFlashCardAction(flashcardValues))
+        await dispatch(addFlashCard(flashcardValues))
       } else if (mode === 'edit') {
-        await dispatch(editFlashCardAction({...flashcardValues, id: flashcard.id}))
+        await dispatch(editFlashCard({...flashcardValues, id: flashcard.id}))
       }
     }
-
-    navigate('/')
+    
+    navigate('/flashcards')
   }
-
+  
   return (
-    <form onSubmit={submitFormHandler}>
+    <div className="col-8 offset-2 bg-dark rounded text-light p-3">
+    <div className="col-12">
+      <form onSubmit={submitFormHandler}>
       <div className="mb-3">
         <label htmlFor="question" className="form-label">Question: </label>
         <input type="text" ref={questionRef} required={mode !== 'delete'} disabled={mode === 'delete'} defaultValue={flashcard?.question} className="form-control" />
@@ -62,9 +66,11 @@ const FlashCardForm = (props) => {
         <textarea ref={explicationRef} required={mode !== 'delete'} disabled={mode === 'delete'} defaultValue={flashcard?.explication} className="form-control" cols={30} rows={10} style={{resize: "none"}}></textarea>
       </div>
         <button className={`btn btn-${mode === 'delete'? 'danger' : mode === 'edit' ? 'warning' : 'success'}`}>
-          <i className={`bi bi-${mode === 'delete' ? 'trash' : mode === 'edit' ? 'pencil-square' : 'plus-circle'}`}></i> {mode === 'delete' ? 'Confirmer' : mode === 'edit' ? 'Editer' : 'Envoyer'}
+          <i className={`bi bi-${mode === 'delete' ? 'trash' : mode === 'edit' ? 'pencil-square' : 'plus-circle'}`}></i> {mode === 'delete' ? 'Confirmer' : mode === 'edit' ? 'Editer' : 'Ajouter'}
           </button>
     </form>
+    </div>
+    </div>
   )
 }
 
